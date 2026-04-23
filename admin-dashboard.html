@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="app.js"></script>
+<script>
+if (localStorage.getItem("admin") !== "true") {
+    alert("Please login first");
+    window.location.href = "admin-login.html";
+}
+</script>
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>Queue Less</h2>
+        <p>Admin Panel</p>
+       <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <div class="topbar">
+            <h2>Admin Dashboard</h2>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="section">
+            <h3>Orders</h3>
+            <div id="adminOrders"></div>
+        </div>
+
+        <!-- ANALYTICS -->
+        <div class="section">
+            <h3>Analytics</h3>
+            <canvas id="chart"></canvas>
+        </div>
+      
+
+    </div>
+
+</div>
+
+</body>
+</html>
