@@ -10,73 +10,20 @@
 
 <div class="topbar">
     <h2>Queue Less</h2>
-     <button onclick="logoutUser()" class="logout-btn">Logout</button>
+    <button onclick="logoutUser()">Logout</button>
 </div>
 
-<div class="container">
+<h3>Menu</h3>
 
-    <h3>Menu</h3>
+<button onclick="addToCart('Burger',80,'Snacks')">Burger ₹80</button>
+<button onclick="addToCart('Pizza',100,'Snacks')">Pizza ₹100</button>
 
-    <div class="grid">
+<h3>Cart</h3>
+<ul id="cart"></ul>
+<button onclick="placeOrder()">Place Order</button>
 
-        <div class="card">
-           <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd">
-            <h4>Burger</h4>
-            <p>₹80</p>
-            <button onclick="addToCart('Burger',80,'Snacks')">Add</button>
-        </div>
-
-        <div class="card">
-            <img src="pizza.jpg">
-            <h4>Pizza</h4>
-            <p>₹100</p>
-            <button onclick="addToCart('Pizza',100,'Snacks')">Add</button>
-        </div>
-
-        <div class="card">
-            <img src="rice.jpg">
-            <h4>Rice & Sambar</h4>
-            <p>₹120</p>
-            <button onclick="addToCart('Rice',120,'Meals')">Add</button>
-        </div>
-
-        <div class="card">
-            <img src="biryani.jpg">
-            <h4>Biryani</h4>
-            <p>₹180</p>
-            <button onclick="addToCart('Biryani',180,'Meals')">Add</button>
-        </div>
- 
-	<div class="card">
-            <img src="oreo.jpg">
-            <h4>Belgium Chips</h4>
-            <p>₹80</p>
-            <button onclick="addToCart('Belgium Chips',80,'Beverages')">Add</button>
-        </div>
-
-	<div class="card">
-            <img src="jamun.jpg">
-            <h4>Gulab Jamun</h4>
-            <p>₹20</p>
-            <button onclick="addToCart('Gulab Jamun',20,'Desserts')">Add</button>
-        </div>
-
-    </div>
-
-    <div class="section">
-        <h3>Cart</h3>
-        <ul id="cart"></ul>
-        <p id="totalAmount"></p>
-        <button onclick="placeOrder()">Place Order</button>
-    </div>
-
-    <div class="section">
-        <h3>Orders</h3>
-        <ul id="orders"></ul>
-    </div>
-    <button onclick="clearOrders()">Clear My Orders</button>
-
-</div>
+<h3>Orders</h3>
+<ul id="orders"></ul>
 
 </body>
 </html>
