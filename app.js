@@ -1,34 +1,52 @@
-// DEBUG
-console.log("APP LOADED");
-
-// FIREBASE IMPORTS
+// =======================
+// 🔥 FIREBASE IMPORTS
+// =======================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// CONFIG
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  updateDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+
+// =======================
+// 🔑 CONFIG
+// =======================
 const firebaseConfig = {
   apiKey: "AIzaSyDSSEZJeTySbbpydfibsXYqa6KYqG9z-cM",
   authDomain: "queue-less-cbf4d.firebaseapp.com",
-  projectId: "queue-less-cbf4d",
+  projectId: "queue-less-cbf4d"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// CART
+
+// =======================
+// 🛒 CART
+// =======================
 let cart = [];
 
-// AUTH
+
+// =======================
+// 🔐 AUTH
+// =======================
 window.login = async function () {
   try {
-    await signInWithEmailAndPassword(auth,
-      document.getElementById("email").value,
-      document.getElementById("password").value
-    );
+    await signInWithEmailAndPassword(auth, emailInput(), passwordInput());
     window.location.href = "user-dashboard.html";
   } catch (e) {
     alert(e.message);
@@ -37,17 +55,17 @@ window.login = async function () {
 
 window.register = async function () {
   try {
-    await createUserWithEmailAndPassword(auth,
-      document.getElementById("email").value,
-      document.getElementById("password").value
-    );
+    await createUserWithEmailAndPassword(auth, emailInput(), passwordInput());
     alert("Registered!");
   } catch (e) {
     alert(e.message);
   }
 };
 
-// CART
+
+// =======================
+// ➕ CART
+// =======================
 window.addToCart = function (item, price, category) {
   cart.push({ item, price, category });
 
@@ -56,7 +74,10 @@ window.addToCart = function (item, price, category) {
   document.getElementById("cart").appendChild(li);
 };
 
-// ORDER
+
+// =======================
+// 📦 ORDER
+// =======================
 window.placeOrder = async function () {
   let total = 0;
 
@@ -77,8 +98,11 @@ window.placeOrder = async function () {
   alert("Total: ₹" + total);
 };
 
-// USER ORDERS
-function loadOrders() {
+
+// =======================
+// 👨‍🎓 USER ORDERS
+// =======================
+function loadUserOrders() {
   let list = document.getElementById("orders");
   if (!list) return;
 
@@ -87,6 +111,7 @@ function loadOrders() {
 
     snapshot.forEach((docSnap) => {
       let o = docSnap.data();
+
       let li = document.createElement("li");
       li.innerText = o.item + " - " + o.status;
       list.appendChild(li);
@@ -94,18 +119,22 @@ function loadOrders() {
   });
 }
 
-// RUN
+
+// =======================
+// 🚀 START
+// =======================
 window.onload = function () {
-  loadOrders();
-};ion(db, "orders"));
-
-    snapshot.forEach(async (docSnap) => {
-      await deleteDoc(doc(db, "orders", docSnap.id));
-    });
-
-    alert("Orders cleared!");
-  } catch (e) {
-    alert(e.message);
-  }
+  loadUserOrders();
 };
-  }
+
+
+// =======================
+// 🔧 HELPERS
+// =======================
+function emailInput() {
+  return document.getElementById("email").value;
+}
+
+function passwordInput() {
+  return document.getElementById("password").value;
+}
