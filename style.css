@@ -1,182 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
 body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    background: #f4f6f9;
+  font-family: Arial;
+  background: #f4f6f9;
 }
 
-/* Center Card */
 .center-card {
-    width: 350px;
-    margin: 120px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 300px;
+  margin: 100px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  text-align: center;
 }
 
-/* Topbar */
-.topbar {
-    background: #2c7be5;
-    color: white;
-    padding: 15px;
-    text-align: center;
-}
-
-/* Layout */
-.container {
-    padding: 20px;
-}
-
-/* Grid */
-.grid {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-/* Cards */
-.card {
-    width: 200px;
-    background: white;
-    padding: 15px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.card img {
-    width: 100%;
-    border-radius: 10px;
-}
-
-/* Sections */
-.section {
-    margin-top: 30px;
-}
-
-/* Buttons */
-button {
-    background: #2c7be5;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-button.secondary {
-    background: gray;
-}
-
-/* Inputs */
 input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: 1px solid #ddd;
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
 }
 
-/* Lists */
-ul {
-    list-style: none;
-    padding: 0;
+button {
+  padding: 10px;
+  margin: 5px;
+  background: #2c7be5;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }
 
-li {
-    background: white;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-}
-
-/* Toast */
-.toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #2c7be5;
-    color: white;
-    padding: 12px;
-    border-radius: 8px;
-}
-
-.link {
-    color: #2c7be5;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.card img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-.admin-container {
-    display: flex;
-}
-
-/* Sidebar */
-.sidebar {
-    width: 220px;
-    background: #2c7be5;
-    color: white;
-    height: 100vh;
-    padding: 20px;
-}
-
-/* Main */
-.main {
-    flex: 1;
-    padding: 20px;
-}
-
-/* Topbar */
 .topbar {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-/* Section */
-.section {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-/* Orders */
-.order-card {
-    background: #f5f5f5;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Buttons */
-.ready-btn {
-    background: #28a745;
-    padding: 6px 12px;
-    border-radius: 6px;
-    color: white;
-    border: none;
-}
-
-.logout-btn {
-    background: red;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 6px;
-    float: right;
+  display: flex;
+  justify-content: space-between;
+  background: #2c7be5;
+  color: white;
+  padding: 10px;
 }
