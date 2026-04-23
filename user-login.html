@@ -9,48 +9,14 @@
 <body>
 
 <div class="center-card">
-
-    <h2 id="formTitle">User Login</h2>
+    <h2>User Login</h2>
 
     <input id="email" placeholder="Email">
     <input id="password" type="password" placeholder="Password">
-  
 
-    <!-- LOGIN BUTTON -->
-    <button id="loginBtn" onclick="login()">Login</button>
-
-    <!-- REGISTER BUTTON -->
-    <button id="registerBtn" onclick="register()" style="display:none;">Register</button>
-
-    <!-- TOGGLE -->
-    <p id="toggleText">
-        Don't have an account? 
-        <span onclick="toggleForm()" class="link">Register</span>
-    </p>
-
+    <button onclick="login()">Login</button>
+    <p>New user? <a href="#" onclick="register()">Register</a></p>
 </div>
-
-<script>
-let isLogin = true;
-
-function toggleForm(){
-    isLogin = !isLogin;
-
-    document.getElementById("formTitle").innerText = 
-        isLogin ? "User Login" : "User Register";
-
-    document.getElementById("loginBtn").style.display = 
-        isLogin ? "block" : "none";
-
-    document.getElementById("registerBtn").style.display = 
-        isLogin ? "none" : "block";
-
-    document.getElementById("toggleText").innerHTML =
-        isLogin 
-        ? `Don't have an account? <span onclick="toggleForm()" class="link">Register</span>`
-        : `Already have an account? <span onclick="toggleForm()" class="link">Login</span>`;
-}
-</script>
 
 </body>
 </html>
