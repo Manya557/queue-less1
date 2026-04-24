@@ -8,19 +8,23 @@
 
 <body>
 
-<div class="topbar">
-    <h2>Queue Less</h2>
-    <button onclick="logoutUser()">Logout</button>
-</div>
+<h2>Queue Less</h2>
+<button onclick="logoutUser()">Logout</button>
 
 <h3>Menu</h3>
 
-<button onclick="addToCart('Burger',80,'Snacks')">Burger ₹80</button>
-<button onclick="addToCart('Pizza',100,'Snacks')">Pizza ₹100</button>
+<div class="card"><h4>Burger ₹80</h4><button onclick="addToCart('Burger',80,'Snacks')">Add</button></div>
+<div class="card"><h4>Pizza ₹100</h4><button onclick="addToCart('Pizza',100,'Snacks')">Add</button></div>
+<div class="card"><h4>Rice ₹120</h4><button onclick="addToCart('Rice',120,'Meals')">Add</button></div>
+<div class="card"><h4>Biryani ₹180</h4><button onclick="addToCart('Biryani',180,'Meals')">Add</button></div>
+<div class="card"><h4>Belgium Chips ₹80</h4><button onclick="addToCart('Belgium Chips',80,'Snacks')">Add</button></div>
+<div class="card"><h4>Gulab Jamun ₹20</h4><button onclick="addToCart('Gulab Jamun',20,'Desserts')">Add</button></div>
 
 <h3>Cart</h3>
 <ul id="cart"></ul>
+
 <button onclick="placeOrder()">Place Order</button>
+<button onclick="clearOrders()">Clear Orders</button>
 
 <h3>Orders</h3>
 <ul id="orders"></ul>
