@@ -1,14 +1,10 @@
-// =======================
-// 🔥 FIREBASE IMPORTS
-// =======================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
@@ -22,10 +18,6 @@ import {
   deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-
-// =======================
-// 🔑 CONFIG
-// =======================
 const firebaseConfig = {
   apiKey: "AIzaSyDSSEZJeTySbbpydfibsXYqa6KYqG9z-cM",
   authDomain: "queue-less-cbf4d.firebaseapp.com",
@@ -36,226 +28,143 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-
-// =======================
-// 🛒 CART
-// =======================
 let cart = [];
 
-
-// =======================
-// 🔐 AUTH
-// =======================
-window.register = async function () {
-  try {
-    await createUserWithEmailAndPassword(auth, emailInput(), passwordInput());
-    alert("Registered!");
-  } catch (e) {
-    alert(e.message);
-  }
+// LOGIN
+window.login = async function(){
+  await signInWithEmailAndPassword(auth,
+    email.value,
+    password.value
+  );
+  window.location.href="user-dashboard.html";
 };
 
-window.login = async function () {
-  try {
-    await signInWithEmailAndPassword(auth, emailInput(), passwordInput());
-    window.location.href = "user-dashboard.html";
-  } catch (e) {
-    alert(e.message);
-  }
+// REGISTER
+window.register = async function(){
+  await createUserWithEmailAndPassword(auth,
+    email.value,
+    password.value
+  );
+  alert("Registered");
 };
 
-window.adminLogin = async function () {
-  try {
-    await signInWithEmailAndPassword(auth, emailInput(), passwordInput());
+// ADMIN LOGIN
+window.adminLogin = async function(){
+  await signInWithEmailAndPassword(auth,email.value,password.value);
 
-    if (emailInput() === "admin@gmail.com") {
-      localStorage.setItem("admin", "true");
-      window.location.href = "admin-dashboard.html";
-    } else {
-      alert("Not admin");
-    }
-  } catch (e) {
-    alert(e.message);
-  }
+  if(email.value==="admin@gmail.com"){
+    localStorage.setItem("admin","true");
+    window.location.href="admin-dashboard.html";
+  } else alert("Not admin");
 };
 
-
-// =======================
-// 🚪 LOGOUT
-// =======================
-window.logoutUser = async function () {
+// LOGOUT
+window.logoutUser = async ()=>{
   await signOut(auth);
-  window.location.href = "index.html";
+  location.href="index.html";
 };
 
-window.logout = function () {
+window.logout = ()=>{
   localStorage.removeItem("admin");
-  window.location.href = "index.html";
+  location.href="index.html";
 };
 
+// CART
+window.addToCart = (item,price,category)=>{
+  cart.push({item,price,category});
 
-// =======================
-// ➕ CART
-// =======================
-window.addToCart = function (item, price, category) {
-  cart.push({ item, price, category });
-
-  let li = document.createElement("li");
-  li.innerText = `${item} - ₹${price}`;
-  document.getElementById("cart").appendChild(li);
+  let li=document.createElement("li");
+  li.innerText=item+" ₹"+price;
+  cartList().appendChild(li);
 };
 
+// ORDER
+window.placeOrder = async ()=>{
+  let total=0;
 
-// =======================
-// 📦 ORDER + TOTAL
-// =======================
-window.placeOrder = async function () {
-  if (cart.length === 0) {
-    alert("Cart empty");
-    return;
-  }
+  for(let c of cart){
+    total+=c.price;
 
-  let total = 0;
-
-  try {
-    for (let c of cart) {
-      total += c.price;
-
-      await addDoc(collection(db, "orders"), {
-        item: c.item,
-        price: c.price,
-        category: c.category,
-        status: "Preparing"
-      });
-    }
-
-    cart = [];
-    document.getElementById("cart").innerHTML = "";
-
-    alert("Total ₹" + total);
-
-  } catch (e) {
-    alert(e.message);
-  }
-};
-
-
-// =======================
-// 🧹 CLEAR ORDERS
-// =======================
-window.clearOrders = async function () {
-  const snapshot = await getDocs(collection(db, "orders"));
-
-  snapshot.forEach(async (docSnap) => {
-    await deleteDoc(doc(db, "orders", docSnap.id));
-  });
-
-  alert("Orders cleared!");
-};
-
-
-// =======================
-// 👨‍🎓 USER ORDERS
-// =======================
-function loadUserOrders() {
-  let list = document.getElementById("orders");
-  if (!list) return;
-
-  onSnapshot(collection(db, "orders"), (snapshot) => {
-    list.innerHTML = "";
-
-    snapshot.forEach((docSnap) => {
-      let o = docSnap.data();
-
-      let li = document.createElement("li");
-      li.innerText = `${o.item} - ${o.status}`;
-      list.appendChild(li);
+    await addDoc(collection(db,"orders"),{
+      item:c.item,
+      category:c.category,
+      status:"Preparing"
     });
+  }
+
+  cart=[];
+  cartList().innerHTML="";
+  alert("Total ₹"+total);
+};
+
+// CLEAR
+window.clearOrders = async ()=>{
+  let snap=await getDocs(collection(db,"orders"));
+
+  snap.forEach(async d=>{
+    await deleteDoc(doc(db,"orders",d.id));
   });
-}
 
+  alert("Orders cleared");
+};
 
-// =======================
-// 👨‍🍳 ADMIN DASHBOARD
-// =======================
-function loadAdminOrders() {
-  let list = document.getElementById("adminOrders");
-  if (!list) return;
+// USER ORDERS
+onSnapshot(collection(db,"orders"),snap=>{
+  let list=document.getElementById("orders");
+  if(!list) return;
 
-  onSnapshot(collection(db, "orders"), (snapshot) => {
+  list.innerHTML="";
+  snap.forEach(d=>{
+    let li=document.createElement("li");
+    li.innerText=d.data().item+" - "+d.data().status;
+    list.appendChild(li);
+  });
+});
 
-    let snacks = 0;
-    let meals = 0;
-    let desserts = 0;
-    let beverages = 0;
+// ADMIN DASHBOARD
+function loadAdmin(){
+  let list=document.getElementById("adminOrders");
+  if(!list) return;
 
-    list.innerHTML = "";
+  onSnapshot(collection(db,"orders"),snap=>{
+    list.innerHTML="";
 
-    snapshot.forEach((docSnap) => {
-      let o = docSnap.data();
+    let snacks=0, meals=0, desserts=0;
 
-      let div = document.createElement("div");
+    snap.forEach(d=>{
+      let o=d.data();
 
-      let span = document.createElement("span");
-      span.innerText = `${o.item} - ${o.status}`;
+      let div=document.createElement("div");
+      div.innerText=o.item+" - "+o.status;
 
-      let btn = document.createElement("button");
-      btn.innerText = "Ready";
-      btn.onclick = function () {
-        markReady(docSnap.id);
-      };
+      let btn=document.createElement("button");
+      btn.innerText="Ready";
+      btn.onclick=()=>markReady(d.id);
 
-      div.appendChild(span);
       div.appendChild(btn);
       list.appendChild(div);
 
-      if (o.category === "Snacks") snacks++;
-      else if (o.category === "Meals") meals++;
-      else if (o.category === "Desserts") desserts++;
-      else if (o.category === "Beverages") beverages++;
+      if(o.category==="Snacks") snacks++;
+      else if(o.category==="Meals") meals++;
+      else if(o.category==="Desserts") desserts++;
     });
 
-    drawChart(snacks, meals, desserts, beverages);
+    new Chart(chart(),{
+      type:"bar",
+      data:{
+        labels:["Snacks","Meals","Desserts"],
+        datasets:[{data:[snacks,meals,desserts]}]
+      }
+    });
   });
 }
 
-
-// =======================
-// 📊 CHART
-// =======================
-function drawChart(snacks, meals, desserts, beverages) {
-  let canvas = document.getElementById("chart");
-  if (!canvas) return;
-
-  new Chart(canvas, {
-    type: "bar",
-    data: {
-      labels: ["Snacks", "Meals", "Desserts", "Beverages"],
-      datasets: [{
-        data: [snacks, meals, desserts, beverages],
-        backgroundColor: ["#2c7be5", "#00c6ff", "#ff9f43", "#28a745"]
-      }]
-    }
-  });
-}
-
-
-// =======================
-// 🔧 HELPERS
-// =======================
-function emailInput() {
-  return document.getElementById("email")?.value || "";
-}
-
-function passwordInput() {
-  return document.getElementById("password")?.value || "";
-}
-
-
-// =======================
-// 🚀 START
-// =======================
-window.onload = function () {
-  loadUserOrders();
-  loadAdminOrders();
+window.markReady = async id=>{
+  await updateDoc(doc(db,"orders",id),{status:"Ready"});
 };
+
+window.onload = loadAdmin;
+
+// helpers
+function cartList(){ return document.getElementById("cart"); }
+function chart(){ return document.getElementById("chart"); }
